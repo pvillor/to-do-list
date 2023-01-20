@@ -6,6 +6,7 @@ import { FiEdit2 } from 'react-icons/fi'
 import Card from "../../components/Card"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
+import api from '../../services/api'
 
 const Home = () => {
     const [tasks, setTasks] = useState([])
@@ -38,7 +39,7 @@ const Home = () => {
                 </section>
             </InputContainer>
             <TasksContainer>
-                {tasks.map(task => <Card key={task.id} title={task.description} onClick={() => {}}/>)}
+                {tasks.map(task => <Card key={task.id} title='teste' onClick={() => {}}/>)}
             </TasksContainer>
         </Container>
     )
