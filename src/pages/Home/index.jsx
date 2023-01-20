@@ -13,7 +13,7 @@ const Home = () => {
     const { register, handleSubmit } = useForm()
 
     const loadTasks = () => {
-        api.get('/task').then(response => setTasks(response.data)).catch(err => console.log(err))
+        api.get('/tasks').then(response => setTasks(response.data)).catch(err => console.log(err))
     }
 
     useEffect(() => {
@@ -25,9 +25,12 @@ const Home = () => {
             return toast.error('Adicione uma descrição à tarefa')
         }
 
-        api.post('/task', {
+        api.post('/tasks', {
             description: task
-        }).then(response => loadTasks()).catch(err => console.log(err))
+        }).then(response => {
+            loadTasks()
+            toast.success('Tarefa adicionada!')
+        }).catch(err => toast.error('Tarefa já existe'))
     }
 
     return (
@@ -39,7 +42,7 @@ const Home = () => {
                 </section>
             </InputContainer>
             <TasksContainer>
-                {tasks.map(task => <Card key={task.id} title='teste' onClick={() => {}}/>)}
+                {tasks.map(task => <Card key={task.id} title={task.description} onClick={() => {}}/>)}
             </TasksContainer>
         </Container>
     )
