@@ -2,11 +2,6 @@ import styled, { css } from "styled-components";
 
 export const Container = styled.div`
     text-align: left;
-    div {
-        span {
-            color: red;
-        }
-    }
 `
 
 export const InputContainer = styled.div`
@@ -18,13 +13,6 @@ export const InputContainer = styled.div`
     width: 100%;
     display: flex;
     transition: 0.4s;
-
-    ${props => props.isErrored && css`
-        border-color: red;
-        svg {
-            color: red;
-        }
-    `}
 
     input {
         background: transparent;

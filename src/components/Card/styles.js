@@ -1,26 +1,30 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-    background: white;
+    background: ${props => props.isCompleted ? 'lightgreen' : 'white'};;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 250px;
-    height: 250px;
+    height: 130px;
     padding: 16px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
-    border: 1px solid black;
+    border: 2px solid ${props => props.isCompleted ? 'green' : 'black'};
     color: black;
+
+    span {
+        font-size: 18px;
+        text-decoration: ${props => props.isCompleted ? 'line-through' : 'none'};
+    }
 
     hr {
         width: 80%;
         margin-top: 16px;
-        margin-bottom: 16px;
+        margin-bottom: 5px;
     }
 
     button {
-        margin-top: 80px;
         align-self: flex-end;
     }
 

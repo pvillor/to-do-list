@@ -1,12 +1,9 @@
 import { Container, InputContainer } from './styles'
 
-const Input = ({ label, icon: Icon, register, name, error = '', ...rest }) => {
+const Input = ({ icon: Icon, register, name, ...rest }) => {
     return (
         <Container>
-            <div>
-                {label} {!!error && <span> - {error}</span>}
-            </div>
-            <InputContainer isErrored={!!error}>
+            <InputContainer>
                 {Icon && <Icon size={20} />}
                 <input {...register(name)} {...rest} />
             </InputContainer>

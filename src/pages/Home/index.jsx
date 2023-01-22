@@ -33,16 +33,23 @@ const Home = () => {
         }).catch(err => toast.error('Tarefa já existe'))
     }
 
+    const completedTask = (id) => {
+        api.patch(`/tasks/${id}`, { completed: true }).then(response => {
+            toast.success('Você concluiu uma tarefa!')
+            loadTasks()
+        })
+    }
+
     return (
         <Container>
             <InputContainer onSubmit={handleSubmit(onSubmit)}>
                 <section>
-                    <Input icon={FiEdit2} placeholder='What needs to be done?' register={register} name='task'/>
+                    <Input icon={FiEdit2} placeholder='O que precisa ser feito?' register={register} name='task'/>
                     <Button type='submit'>Adicionar</Button>
                 </section>
             </InputContainer>
             <TasksContainer>
-                {tasks.map(task => <Card key={task.id} title={task.description} onClick={() => {}}/>)}
+                {tasks.map(task => <Card key={task.id} title={task.description} onClick={() => completedTask(task.id)} isCompleted={task.completed}/>)}
             </TasksContainer>
         </Container>
     )
