@@ -2,7 +2,7 @@ import { FiClipboard } from 'react-icons/fi'
 import { Container } from './styles'
 import Button from '../Button'
 
-const Card = ({ title, onClick, isCompleted = false }) => {
+const Card = ({ title, onClick, isCompleted = false, edit = false }) => {
     return isCompleted ? (
         <Container isCompleted={isCompleted}>
             <span>
@@ -10,7 +10,7 @@ const Card = ({ title, onClick, isCompleted = false }) => {
             </span>
         </Container>
         ) : (
-        <Container isCompleted={isCompleted}>
+        <Container isCompleted={isCompleted} onClick={edit}>
             <span>
                 <FiClipboard /> {title}
             </span>

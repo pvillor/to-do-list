@@ -1,15 +1,17 @@
 import { useForm } from "react-hook-form"
-import { Container, InputContainer, TasksContainer } from "./styles"
+import { CloseModal, Container, InputContainer, TasksContainer } from "./styles"
 import Input from '../../components/Input'
 import Button from '../../components/Button'
-import { FiEdit2 } from 'react-icons/fi'
+import { FiEdit2, FiEdit3, FiX } from 'react-icons/fi'
 import Card from "../../components/Card"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import api from '../../services/api'
+import Modal from "../../components/Modal"
 
 const Home = () => {
     const [tasks, setTasks] = useState([])
+    const [edit, setEdit] = useState(false)
     const { register, handleSubmit } = useForm()
 
     const loadTasks = () => {
@@ -40,7 +42,18 @@ const Home = () => {
         })
     }
 
-    return (
+    const updateTask = (id, description) => {
+        api.patch(`/tasks/${id}`, { description: description }).then(response => {
+            toast.success('Tarefa atualizada!')
+            loadTasks()
+        })
+    }
+
+    return edit ? (
+        <>
+        <Modal icon={FiEdit3} register={register} name='task' setEdit={setEdit}/>
+        </>
+    ) : (
         <Container>
             <InputContainer onSubmit={handleSubmit(onSubmit)}>
                 <section>
@@ -49,10 +62,11 @@ const Home = () => {
                 </section>
             </InputContainer>
             <TasksContainer>
-                {tasks.map(task => <Card key={task.id} title={task.description} onClick={() => completedTask(task.id)} isCompleted={task.completed}/>)}
+                {tasks.map(task => <Card key={task.id} title={task.description} edit={() => setEdit(true)} onClick={() => completedTask(task.id)} isCompleted={task.completed}/>)}
             </TasksContainer>
         </Container>
-    )
+        )
+
 }
 
 export default Home

@@ -13,6 +13,12 @@ export const Container = styled.div`
     border: 2px solid ${props => props.isCompleted ? 'green' : 'black'};
     color: black;
 
+    :hover {
+        width: 260px;
+        height: 140px;
+        cursor: text;
+    }
+
     span {
         font-size: 18px;
         text-decoration: ${props => props.isCompleted ? 'line-through' : 'none'};
