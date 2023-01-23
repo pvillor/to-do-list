@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form"
-import { CloseModal, Container, InputContainer, TasksContainer } from "./styles"
+import { Container, InputContainer, TasksContainer } from "./styles"
 import Input from '../../components/Input'
 import Button from '../../components/Button'
-import { FiEdit2, FiEdit3, FiX } from 'react-icons/fi'
+import { FiEdit2, FiEdit3 } from 'react-icons/fi'
 import Card from "../../components/Card"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
@@ -12,10 +12,16 @@ import Modal from "../../components/Modal"
 const Home = () => {
     const [tasks, setTasks] = useState([])
     const [edit, setEdit] = useState(false)
+    const [task, setTask] = useState({})
+    const [updatedDescription, setUpdatedDescription] = useState([])
     const { register, handleSubmit } = useForm()
 
     const loadTasks = () => {
         api.get('/tasks').then(response => setTasks(response.data)).catch(err => console.log(err))
+    }
+
+    const loadTask = (id) => {
+        api.get(`/tasks/${id}`).then(response => setTask(response.data)).catch(err => console.log(err))
     }
 
     useEffect(() => {
@@ -42,27 +48,38 @@ const Home = () => {
         })
     }
 
-    const updateTask = (id, description) => {
-        api.patch(`/tasks/${id}`, { description: description }).then(response => {
+    const updateTask = (id) => {
+        api.patch(`/tasks/${id}`, { description: updatedDescription }).then(response => {
             toast.success('Tarefa atualizada!')
+            setEdit(false)
             loadTasks()
         })
     }
 
+    const getTaskToEdit = (e) => {
+        setEdit(true)
+
+        const task = e.target.id
+        const verify = e.target
+        console.log(verify)
+
+        loadTask(task)
+    }
+
     return edit ? (
         <>
-        <Modal icon={FiEdit3} register={register} name='task' setEdit={setEdit}/>
+        <Modal icon={FiEdit3} register={register} name='description' setEdit={setEdit} onSubmit={handleSubmit(() => updateTask(task.id))} setUpdatedDescription={setUpdatedDescription}/>
         </>
     ) : (
         <Container>
             <InputContainer onSubmit={handleSubmit(onSubmit)}>
                 <section>
-                    <Input icon={FiEdit2} placeholder='O que precisa ser feito?' register={register} name='task'/>
+                    <Input icon={FiEdit2} placeholder='O que precisa ser feito?' register={register} name='task' setUpdatedDescription={setUpdatedDescription}/>
                     <Button type='submit'>Adicionar</Button>
                 </section>
             </InputContainer>
             <TasksContainer>
-                {tasks.map(task => <Card key={task.id} title={task.description} edit={() => setEdit(true)} onClick={() => completedTask(task.id)} isCompleted={task.completed}/>)}
+                {tasks.map(task => <Card key={task.id} title={task.description} edit={(e) => getTaskToEdit(e)} onClick={() => completedTask(task.id)} isCompleted={task.completed} id={task.id}/>)}
             </TasksContainer>
         </Container>
         )
