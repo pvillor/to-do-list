@@ -80,7 +80,7 @@ const Home = () => {
                     <Button type='submit'>Adicionar</Button>
                 </section>
             </InputContainer>
-            <TasksContainer>
+            <TasksContainer data-testid='tasks-container'>
                 {tasks.map(task => <Card key={task.id} title={task.description} edit={(e) => getTaskToEdit(e)} onClick={() => completedTask(task.id)} isCompleted={task.completed} id={task.id}/>)}
             </TasksContainer>
         </Container>
