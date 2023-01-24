@@ -53,17 +53,19 @@ const Home = () => {
             toast.success('Tarefa atualizada!')
             setEdit(false)
             loadTasks()
-        })
+        }).catch(err => toast.error('Adicione uma descrição à tarefa'))
     }
 
     const getTaskToEdit = (e) => {
-        setEdit(true)
+        const taskCard = e.target.id
+        const verifyTag = e.target.type
 
-        const task = e.target.id
-        const verify = e.target
-        console.log(verify)
-
-        loadTask(task)
+        if(verifyTag === 'button') {
+            loadTasks()
+        } else {
+            loadTask(taskCard)
+            setEdit(true)
+        }
     }
 
     return edit ? (
