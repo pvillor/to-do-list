@@ -1,7 +1,6 @@
 import React from "react";
-import { render, fireEvent, waitFor, screen } from '@testing-library/react'
+import { render, waitFor, screen } from '@testing-library/react'
 import Home from '../../pages/Home'
-import axios from "axios";
 import api from "../../services/api";
 import MockAdapter from "axios-mock-adapter";
 
